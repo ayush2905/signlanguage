@@ -4,4 +4,4 @@ numpy
 cvzone
 streamlit-webrtc
 tensorflow
-mediapipe
+mediapipe==0.10.0
