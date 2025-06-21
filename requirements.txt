@@ -1,6 +1,7 @@
 streamlit
 opencv-python-headless
 numpy
-cvzone
+cvzone==1.6.1
 streamlit-webrtc
-tensorflow
+tensorflow==2.15.0
+mediapipe==0.10.21
