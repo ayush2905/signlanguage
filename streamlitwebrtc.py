@@ -65,5 +65,18 @@ webrtc_streamer(
     key="hand-sign",
     video_transformer_factory=SignLanguageTransformer,
     media_stream_constraints={"video": True, "audio": False},
-    rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
+    rtc_configuration={"iceServers": [{
+   urls: [ "stun:bn-turn2.xirsys.com" ]
+}, {
+   username: "rJhsnYer6656GcqAKdFv-Z3-h8aNNR6PkqNzxkF776vL4EUhx0bJaEjH4rQmjjLqAAAAAGhXjPFTaWduTGFuZ3VhZ2U=",
+   credential: "3b64b224-4f25-11f0-8c9c-0242ac140004",
+   urls: [
+       "turn:bn-turn2.xirsys.com:80?transport=udp",
+       "turn:bn-turn2.xirsys.com:3478?transport=udp",
+       "turn:bn-turn2.xirsys.com:80?transport=tcp",
+       "turn:bn-turn2.xirsys.com:3478?transport=tcp",
+       "turns:bn-turn2.xirsys.com:443?transport=tcp",
+       "turns:bn-turn2.xirsys.com:5349?transport=tcp"
+   ]
+}]},
 )
