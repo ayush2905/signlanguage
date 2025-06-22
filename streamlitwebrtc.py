@@ -65,5 +65,5 @@ webrtc_streamer(
     key="hand-sign",
     video_transformer_factory=SignLanguageTransformer,
     media_stream_constraints={"video": True, "audio": False},
-    rtc_configuration={"iceServers": [{"urls": ["stun.zentauron.de:3478"]}]},
+    rtc_configuration={"iceServers": [{"urls": ["stun:stun.l.google.com:19302"]}]},
 )
