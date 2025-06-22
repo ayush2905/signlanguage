@@ -66,11 +66,11 @@ webrtc_streamer(
     video_transformer_factory=SignLanguageTransformer,
     media_stream_constraints={"video": True, "audio": False},
     rtc_configuration={"iceServers": [{
-   urls: [ "stun:bn-turn2.xirsys.com" ]
+   "urls": [ "stun:bn-turn2.xirsys.com" ]
 }, {
-   username: "rJhsnYer6656GcqAKdFv-Z3-h8aNNR6PkqNzxkF776vL4EUhx0bJaEjH4rQmjjLqAAAAAGhXjPFTaWduTGFuZ3VhZ2U=",
-   credential: "3b64b224-4f25-11f0-8c9c-0242ac140004",
-   urls: [
+   "username": "rJhsnYer6656GcqAKdFv-Z3-h8aNNR6PkqNzxkF776vL4EUhx0bJaEjH4rQmjjLqAAAAAGhXjPFTaWduTGFuZ3VhZ2U=",
+   "credential": "3b64b224-4f25-11f0-8c9c-0242ac140004",
+   "urls": [
        "turn:bn-turn2.xirsys.com:80?transport=udp",
        "turn:bn-turn2.xirsys.com:3478?transport=udp",
        "turn:bn-turn2.xirsys.com:80?transport=tcp",
