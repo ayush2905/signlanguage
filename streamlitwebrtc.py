@@ -1,3 +1,4 @@
+import av
 import streamlit as st
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 import cv2
@@ -22,7 +23,7 @@ class SignLanguageTransformer(VideoTransformerBase):
         self.detector = detector
         self.classifier = classifier
 
-    def transform(self, frame):
+    def recv(self, frame: av.VideoFrame) -> av.VideoFrame:
         img = frame.to_ndarray(format="bgr24")
         hands, _ = self.detector.findHands(img, draw=False)
         if hands:
@@ -34,7 +35,7 @@ class SignLanguageTransformer(VideoTransformerBase):
             if imgCrop.size:
                 # prepare white canvas
                 imgWhite = np.ones((imgSize, imgSize, 3), np.uint8) * 255
-                aspectRatio = (h) / (w)
+                aspectRatio = h / w
                 if aspectRatio > 1:
                     k = imgSize / h
                     wCal = math.ceil(k * w)
@@ -58,25 +59,31 @@ class SignLanguageTransformer(VideoTransformerBase):
                             cv2.FONT_HERSHEY_SIMPLEX, 1.7, (255,255,255), 2)
                 cv2.rectangle(img, (x1, y1), (x2, y2), (255,0,255), 4)
 
-        return img
+        # convert back to VideoFrame
+        return av.VideoFrame.from_ndarray(img, format="bgr24")
 
-# Start webcam streamer
+
 webrtc_streamer(
     key="hand-sign",
     video_transformer_factory=SignLanguageTransformer,
     media_stream_constraints={"video": True, "audio": False},
-    rtc_configuration={"iceServers": [{
-   "urls": [ "stun:bn-turn2.xirsys.com" ]
-}, {
-   "username": "rJhsnYer6656GcqAKdFv-Z3-h8aNNR6PkqNzxkF776vL4EUhx0bJaEjH4rQmjjLqAAAAAGhXjPFTaWduTGFuZ3VhZ2U=",
-   "credential": "3b64b224-4f25-11f0-8c9c-0242ac140004",
-   "urls": [
-       "turn:bn-turn2.xirsys.com:80?transport=udp",
-       "turn:bn-turn2.xirsys.com:3478?transport=udp",
-       "turn:bn-turn2.xirsys.com:80?transport=tcp",
-       "turn:bn-turn2.xirsys.com:3478?transport=tcp",
-       "turns:bn-turn2.xirsys.com:443?transport=tcp",
-       "turns:bn-turn2.xirsys.com:5349?transport=tcp"
-   ]
-}]},
+    rtc_configuration={
+        "iceServers": [
+            {
+                "urls": ["stun:bn-turn2.xirsys.com"]
+            },
+            {
+               "username": "rJhsnYer6656GcqAKdFv-Z3-h8aNNR6PkqNzxkF776vL4EUhx0bJaEjH4rQmjjLqAAAAAGhXjPFTaWduTGFuZ3VhZ2U=",
+               "credential": "3b64b224-4f25-11f0-8c9c-0242ac140004",
+               "urls": [
+                   "turn:bn-turn2.xirsys.com:80?transport=udp",
+                   "turn:bn-turn2.xirsys.com:3478?transport=udp",
+                   "turn:bn-turn2.xirsys.com:80?transport=tcp",
+                   "turn:bn-turn2.xirsys.com:3478?transport=tcp",
+                   "turns:bn-turn2.xirsys.com:443?transport=tcp",
+                   "turns:bn-turn2.xirsys.com:5349?transport=tcp"
+               ]
+            }
+        ]
+    },
 )
